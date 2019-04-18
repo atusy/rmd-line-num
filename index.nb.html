@@ -1837,49 +1837,65 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<p><strong>Go <a href="https://github.com/atusy/rmd-line-num"><code>atusy/rmd-line-num</code></a> on GitHub to see source files and output examples in variety of formats.</strong></p>
-<div id="in-pandoc-style-fenced-code" class="section level1">
-<h1>In pandoc style fenced code</h1>
+<p><strong>Before reading</strong></p>
+<ul>
+<li>For quick start, go “<a href="#autonumbering">Autonumbering</a>”.</li>
+<li>A source and output examples in variety of formats are on GitHub <a href="https://github.com/atusy/rmd-line-num"><code>atusy/rmd-line-num</code></a>.</li>
+<li>Ask me questions on <a href="https://github.com/atusy/rmd-line-num/issues">GitHub Issues</a> or on Twitter (<a href="https://twitter.com/Atsushi776">@Atsushi776</a>)</li>
+</ul>
+<div id="number-pandocs-fenced-code" class="section level1">
+<h1>Number Pandoc’s fenced code</h1>
 <p>Pandoc has an official support to number lines on fenced code by giving a class attribute <code>numberLines</code> (<a href="https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes" class="uri">https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes</a>).</p>
 <p>Note that class attributes require <code>.</code> before the class name.</p>
-<pre><code>```{.r .numberLines}
-x &lt;- rnorm(10)
-mean(x)
-```</code></pre>
-<p>becomes</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb1-1" title="1">```{.r .numberLines}</a>
+<a class="sourceLine" id="cb1-2" title="2">x &lt;- rnorm(10)</a>
+<a class="sourceLine" id="cb1-3" title="3">mean(x)</a>
+<a class="sourceLine" id="cb1-4" title="4">```</a></code></pre></div>
+<p>Should become</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<p>Great!</p>
+<p>This is enough for <code>rmarkdown::pdf_document</code>.</p>
+<p>For <code>html_document</code>, we also need <code>highlight:pygment</code> in YAML front matter<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb3-1" title="1"><span class="ot">---</span></a>
+<a class="sourceLine" id="cb3-2" title="2"><span class="fu">title:</span><span class="at"> Line numbers with Rmarkdown documents</span></a>
+<a class="sourceLine" id="cb3-3" title="3"><span class="fu">output:</span><span class="at"> </span></a>
+<a class="sourceLine" id="cb3-4" title="4">  <span class="fu">html_document:</span></a>
+<a class="sourceLine" id="cb3-5" title="5">    <span class="fu">highlight:</span><span class="at"> pygment</span></a>
+<a class="sourceLine" id="cb3-6" title="6">  <span class="fu">pdf_document:</span><span class="at"> default</span></a>
+<a class="sourceLine" id="cb3-7" title="7"><span class="ot">---</span></a></code></pre></div>
 </div>
-<div id="in-rmarkdowns-chunk" class="section level1">
-<h1>In Rmarkdown’s chunk</h1>
+<div id="number-rmarkdowns-chunks-and-outputs" class="section level1">
+<h1>Number Rmarkdown’s chunks and outputs</h1>
 <p>The above success infers a success in chunks of Rmarkdown.</p>
-<p>For code chunks of Rmarkdown documents, <code>numberLines</code> class can be given by assigning <code>class.source = &quot;numberLines&quot;</code> as a chunk option. <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></p>
-<p>This is enough for <code>rmarkdown::pdf_document</code>. On the other hand, <code>rmarkdown::html_document</code> requires <code>highlyght: pygment</code> in a YAML front matter<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<div id="numbering-chunks" class="section level2">
+<h2>Numbering chunks</h2>
+<p>For code chunks of Rmarkdown documents, <code>numberLines</code> class can be given by assigning <code>class.source = &quot;numberLines&quot;</code> as a chunk option<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
+<p>Again, you need <code>highlight: pygment</code> for <code>html_document</code>.</p>
 <p>Thus,</p>
-<pre><code>---
-title: Line numbers with Rmarkdown documents
-output: 
-  html_document:
-    highlight: pygment
----
-
-```{r, class.source = &quot;numberLines&quot;}
-x &lt;- seq(10)
-mean(x)
-```</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb4-1" title="1">---</a>
+<a class="sourceLine" id="cb4-2" title="2">title: Line numbers with Rmarkdown documents</a>
+<a class="sourceLine" id="cb4-3" title="3">output: </a>
+<a class="sourceLine" id="cb4-4" title="4">  html_document:</a>
+<a class="sourceLine" id="cb4-5" title="5">    highlight: pygment</a>
+<a class="sourceLine" id="cb4-6" title="6">---</a>
+<a class="sourceLine" id="cb4-7" title="7"></a>
+<a class="sourceLine" id="cb4-8" title="8">```{r, class.source = &quot;numberLines&quot;}</a>
+<a class="sourceLine" id="cb4-9" title="9">x &lt;- seq(10)</a>
+<a class="sourceLine" id="cb4-10" title="10">mean(x)</a>
+<a class="sourceLine" id="cb4-11" title="11">```</a></code></pre></div>
 <p>becomes</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBzZXEoMTApXG5tZWFuKHgpXG5gYGAifQ== -->
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Great again!!</p>
 <p>Unfortunately, line numbering does not work on <code>rmarkdown::word_document</code>.</p>
 <p>It does not work properly on <code>rmarkdown::html_notebook</code> and <code>blogdown::html_page</code> as well. I guess some tricks required in CSS or JS.</p>
+</div>
 <div id="numbering-outputs" class="section level2">
 <h2>Numbering outputs</h2>
 <p>You may also want to number lines on outputs by <code>class.output = &quot;numberLines&quot;</code>. However, this changes background colors to gray.</p>
@@ -1889,11 +1905,11 @@ mean(x)
 <!-- rnb-text-begin -->
 <p>If output format is html, css will help.</p>
 <p>Before adding <code>class.output = &quot;numberLines&quot;</code>, an output in html is</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">&lt;pre&gt;&lt;code&gt;</span>## [1] 5.5<span class="kw">&lt;/code&gt;&lt;/pre&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">&lt;pre&gt;&lt;code&gt;</span>## [1] 5.5<span class="kw">&lt;/code&gt;&lt;/pre&gt;</span></a></code></pre></div>
 <p>After adding it, the output in html becomes</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb6-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
 <p>When <code>chunkout</code> class is further added, the output in html becomes</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode html"><code class="sourceCode html"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines chunkout&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb8-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines chunkout&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
 <p>You can see <code>chunkout</code> class is added to <code>pre</code> tag.</p>
 <p>So, lets modify css with</p>
 <!-- rnb-text-end -->
@@ -1912,29 +1928,83 @@ div.sourceCode pre.chunkout {
 <!-- rnb-text-begin -->
 <p>Sorry I do not support pdf because <span class="math inline">\(LaTeX\)</span> kills me.</p>
 </div>
-<div id="numbering-in-default" class="section level2">
-<h2>Numbering in default</h2>
-<p>Super easy.</p>
-<p>Run following at just after a YAML front matter.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" title="1"><span class="st">```</span><span class="dt">{r setup}</span></a>
-<a class="sourceLine" id="cb8-2" title="2"><span class="dt">knitr::opts_chunk$set(</span></a>
-<a class="sourceLine" id="cb8-3" title="3"><span class="dt">  class.source = &quot;numberLines&quot;,</span></a>
-<a class="sourceLine" id="cb8-4" title="4"><span class="dt">  class.output = c(&quot;numberLines&quot;, &quot;chunkout&quot;)</span></a>
-<a class="sourceLine" id="cb8-5" title="5"><span class="dt">)</span></a>
-<a class="sourceLine" id="cb8-6" title="6"><span class="st">```</span></a>
-<a class="sourceLine" id="cb8-7" title="7"></a>
-<a class="sourceLine" id="cb8-8" title="8"><span class="st">```</span><span class="dt">{css}</span></a>
-<a class="sourceLine" id="cb8-9" title="9"><span class="dt">div.sourceCode pre.chunkout {</span></a>
-<a class="sourceLine" id="cb8-10" title="10"><span class="dt">  background: white;</span></a>
-<a class="sourceLine" id="cb8-11" title="11"><span class="dt">}</span></a>
-<a class="sourceLine" id="cb8-12" title="12"><span class="st">```</span></a></code></pre></div>
-<p>Note that this does not affect pandoc style fenced code. According to pandoc’s document, setting up a following YAML front matter should work, but doesn’t.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb9-1" title="1"><span class="fu">output:</span><span class="at"> </span></a>
-<a class="sourceLine" id="cb9-2" title="2">  <span class="fu">html_document:</span><span class="at"> </span></a>
-<a class="sourceLine" id="cb9-3" title="3">    <span class="fu">highlight:</span><span class="at"> pygment</span></a>
-<a class="sourceLine" id="cb9-4" title="4">      <span class="fu">panoc_args:</span></a>
-<a class="sourceLine" id="cb9-5" title="5">        <span class="kw">-</span> --indented-code-classes</a>
-<a class="sourceLine" id="cb9-6" title="6">        <span class="kw">-</span> numberLines</a></code></pre></div>
+</div>
+<div id="autonumbering" class="section level1">
+<h1>Autonumbering</h1>
+<ul>
+<li><p>Super easy by a following template and edit after <code>&lt;!-- Start your body --&gt;</code>.</p></li>
+<li><p>Disable numbering by <code>class.source = NULL, class.output = NULL</code>.</p></li>
+<li><p>Note autonumbering does not work on Pandoc’s fenced code <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb9-1" title="1"><span class="ot">---</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="fu">output:</span></a>
+<a class="sourceLine" id="cb9-3" title="3">  <span class="fu">html_document:</span></a>
+<a class="sourceLine" id="cb9-4" title="4">    <span class="fu">highlight:</span><span class="at"> pygment</span></a>
+<a class="sourceLine" id="cb9-5" title="5">    <span class="fu">pandoc_args:</span></a>
+<a class="sourceLine" id="cb9-6" title="6">      <span class="kw">-</span> --indented-code-classes</a>
+<a class="sourceLine" id="cb9-7" title="7">      <span class="kw">-</span> lineNumbers</a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="ot">---</span></a></code></pre></div></li>
+</ul>
+<div id="input-with-a-template" class="section level2">
+<h2>Input with a template</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb10-1" title="1">---</a>
+<a class="sourceLine" id="cb10-2" title="2">output:</a>
+<a class="sourceLine" id="cb10-3" title="3">  html_document:</a>
+<a class="sourceLine" id="cb10-4" title="4">    highlight: pygment</a>
+<a class="sourceLine" id="cb10-5" title="5">  pdf_document: default</a>
+<a class="sourceLine" id="cb10-6" title="6">---</a>
+<a class="sourceLine" id="cb10-7" title="7"></a>
+<a class="sourceLine" id="cb10-8" title="8">```{r setup, include = FALSE}</a>
+<a class="sourceLine" id="cb10-9" title="9">knitr::opts_chunk$set(</a>
+<a class="sourceLine" id="cb10-10" title="10">  class.source = &quot;numberLines&quot;, </a>
+<a class="sourceLine" id="cb10-11" title="11">  class.output = c(&quot;numberLines&quot;, &quot;chunkout&quot;) </a>
+<a class="sourceLine" id="cb10-12" title="12">)</a>
+<a class="sourceLine" id="cb10-13" title="13"></a>
+<a class="sourceLine" id="cb10-14" title="14"># Add some arbitrary setup codes</a>
+<a class="sourceLine" id="cb10-15" title="15">```</a>
+<a class="sourceLine" id="cb10-16" title="16"></a>
+<a class="sourceLine" id="cb10-17" title="17"></a>
+<a class="sourceLine" id="cb10-18" title="18">```{css, echo = FALSE}</a>
+<a class="sourceLine" id="cb10-19" title="19">div.sourceCode pre.chunkout {</a>
+<a class="sourceLine" id="cb10-20" title="20">  background: white;</a>
+<a class="sourceLine" id="cb10-21" title="21">}</a>
+<a class="sourceLine" id="cb10-22" title="22">```</a>
+<a class="sourceLine" id="cb10-23" title="23"></a>
+<a class="sourceLine" id="cb10-24" title="24">&lt;!-- Start your body --&gt;</a>
+<a class="sourceLine" id="cb10-25" title="25"></a>
+<a class="sourceLine" id="cb10-26" title="26">**Numbered**</a>
+<a class="sourceLine" id="cb10-27" title="27"></a>
+<a class="sourceLine" id="cb10-28" title="28">```{r}</a>
+<a class="sourceLine" id="cb10-29" title="29">x &lt;- seq(10)</a>
+<a class="sourceLine" id="cb10-30" title="30">mean(x)</a>
+<a class="sourceLine" id="cb10-31" title="31">```</a>
+<a class="sourceLine" id="cb10-32" title="32"></a>
+<a class="sourceLine" id="cb10-33" title="33">**Unnumbered**</a>
+<a class="sourceLine" id="cb10-34" title="34"></a>
+<a class="sourceLine" id="cb10-35" title="35">```{r, class.source = NULL, class.output = NULL}</a>
+<a class="sourceLine" id="cb10-36" title="36">x &lt;- seq(10)</a>
+<a class="sourceLine" id="cb10-37" title="37">mean(x)</a>
+<a class="sourceLine" id="cb10-38" title="38">```</a></code></pre></div>
+</div>
+<div id="output-from-the-template" class="section level2">
+<h2>Output from the template</h2>
+<p><strong>Numbered</strong></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBzZXEoMTApXG5tZWFuKHgpXG5gYGAifQ== -->
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><strong>Unnumbered</strong></p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxueCA8LSBzZXEoMTApXG5tZWFuKHgpXG5gYGAifQ== -->
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 </div>
 </div>
 <div id="enjoy" class="section level1">
@@ -1944,12 +2014,13 @@ div.sourceCode pre.chunkout {
 <div class="footnotes">
 <hr />
 <ol>
-<li id="fn1"><p>See “Tex Results” section of “Chunk options and package options” by Yi Hui (<a href="https://yihui.name/knitr/options/#text-results" class="uri">https://yihui.name/knitr/options/#text-results</a>)<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>“Chunk numberLines hook]” on Rpubs figured out requirement of <code>pygment</code> (<a href="https://rpubs.com/Thell/numberLines" class="uri">https://rpubs.com/Thell/numberLines</a>).<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn1"><p>“Chunk numberLines hook]” on Rpubs figured out requirement of <code>pygment</code> (<a href="https://rpubs.com/Thell/numberLines" class="uri">https://rpubs.com/Thell/numberLines</a>).<a href="#fnref1" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p>See “Tex Results” section of “Chunk options and package options” by Yi Hui (<a href="https://yihui.name/knitr/options/#text-results" class="uri">https://yihui.name/knitr/options/#text-results</a>)<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>The document indicates a following YAML front matter should work, but doesn’t (<a href="https://www.pandoc.org/MANUAL.html#reader-options" class="uri">https://www.pandoc.org/MANUAL.html#reader-options</a>).<a href="#fnref3" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiBOdW1iZXIgbGluZXMgaW4gY29kZSBibG9ja3Mgd2l0aCBSbWFya2Rvd24KYXV0aG9yOiBBdHVzeQpvdXRwdXQ6IAogIGh0bWxfZG9jdW1lbnQ6IAogICAgaGlnaGxpZ2h0OiBweWdtZW50CiAgICB0b2M6IHRydWUKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogIGh0bWxfbm90ZWJvb2s6IAogICAgaGlnaGxpZ2h0OiBweWdtZW50CiAgcGRmX2RvY3VtZW50OiBkZWZhdWx0CiAgd29yZF9kb2N1bWVudDogZGVmYXVsdAotLS0KCioqR28gW2BhdHVzeS9ybWQtbGluZS1udW1gXShodHRwczovL2dpdGh1Yi5jb20vYXR1c3kvcm1kLWxpbmUtbnVtKSBvbiBHaXRIdWIgdG8gc2VlIHNvdXJjZSBmaWxlcyBhbmQgb3V0cHV0IGV4YW1wbGVzIGluIHZhcmlldHkgb2YgZm9ybWF0cy4qKgoKIyBJbiBwYW5kb2Mgc3R5bGUgZmVuY2VkIGNvZGUKClBhbmRvYyBoYXMgYW4gb2ZmaWNpYWwgc3VwcG9ydCB0byBudW1iZXIgbGluZXMgb24gZmVuY2VkIGNvZGUgYnkgZ2l2aW5nIGEgY2xhc3MgYXR0cmlidXRlIGBudW1iZXJMaW5lc2AgCig8aHR0cHM6Ly93d3cucGFuZG9jLm9yZy9NQU5VQUwuaHRtbCNleHRlbnNpb24tZmVuY2VkX2NvZGVfYXR0cmlidXRlcz4pLgoKTm90ZSB0aGF0IGNsYXNzIGF0dHJpYnV0ZXMgcmVxdWlyZSBgLmAgYmVmb3JlIHRoZSBjbGFzcyBuYW1lLgoKYGBgYApgYGB7LnIgLm51bWJlckxpbmVzfQp4IDwtIHJub3JtKDEwKQptZWFuKHgpCmBgYApgYGBgCgpiZWNvbWVzCgpgYGB7LnIgLm51bWJlckxpbmVzfQp4IDwtIHJub3JtKDEwKQptZWFuKHgpCmBgYAoKR3JlYXQhCgojIEluIFJtYXJrZG93bidzIGNodW5rCgpUaGUgYWJvdmUgc3VjY2VzcyBpbmZlcnMgYSBzdWNjZXNzIGluIGNodW5rcyBvZiBSbWFya2Rvd24uCgpGb3IgY29kZSBjaHVua3Mgb2YgUm1hcmtkb3duIGRvY3VtZW50cywKYG51bWJlckxpbmVzYCBjbGFzcyBjYW4gYmUgZ2l2ZW4gYnkgYXNzaWduaW5nIGBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMiYCBhcyBhIGNodW5rIG9wdGlvbi4gW155aWh1aV0KClteeWlodWldOiBTZWUgIlRleCBSZXN1bHRzIiBzZWN0aW9uIG9mICJDaHVuayBvcHRpb25zIGFuZCBwYWNrYWdlIG9wdGlvbnMiIGJ5IFlpIEh1aSAoPGh0dHBzOi8veWlodWkubmFtZS9rbml0ci9vcHRpb25zLyN0ZXh0LXJlc3VsdHM+KQoKVGhpcyBpcyBlbm91Z2ggZm9yIGBybWFya2Rvd246OnBkZl9kb2N1bWVudGAuCk9uIHRoZSBvdGhlciBoYW5kLCBgcm1hcmtkb3duOjpodG1sX2RvY3VtZW50YCByZXF1aXJlcyBgaGlnaGx5Z2h0OiBweWdtZW50YCBpbiBhIFlBTUwgZnJvbnQgbWF0dGVyW15weWdtZW50XS4KCltecHlnbWVudF06ICJDaHVuayBudW1iZXJMaW5lcyBob29rXSIgb24gUnB1YnMgZmlndXJlZCBvdXQgcmVxdWlyZW1lbnQgb2YgYHB5Z21lbnRgICg8aHR0cHM6Ly9ycHVicy5jb20vVGhlbGwvbnVtYmVyTGluZXM+KS4KClRodXMsCgpgYGBgCi0tLQp0aXRsZTogTGluZSBudW1iZXJzIHdpdGggUm1hcmtkb3duIGRvY3VtZW50cwpvdXRwdXQ6IAogIGh0bWxfZG9jdW1lbnQ6CiAgICBoaWdobGlnaHQ6IHB5Z21lbnQKLS0tCgpgYGB7YHIgInIiYCwgY2xhc3Muc291cmNlID0gIm51bWJlckxpbmVzIn0KeCA8LSBzZXEoMTApCm1lYW4oeCkKYGBgCmBgYGAKCmJlY29tZXMKCmBgYHtyLCBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMifQp4IDwtIHNlcSgxMCkKbWVhbih4KQpgYGAKCkdyZWF0IGFnYWluISEKCgpVbmZvcnR1bmF0ZWx5LCBsaW5lIG51bWJlcmluZyBkb2VzIG5vdCB3b3JrIG9uIGBybWFya2Rvd246OndvcmRfZG9jdW1lbnRgLgoKSXQgZG9lcyBub3Qgd29yayBwcm9wZXJseSBvbiBgcm1hcmtkb3duOjpodG1sX25vdGVib29rYCBhbmQgYGJsb2dkb3duOjpodG1sX3BhZ2VgIGFzIHdlbGwuCkkgZ3Vlc3Mgc29tZSB0cmlja3MgcmVxdWlyZWQgaW4gQ1NTIG9yIEpTLgoKIyMgTnVtYmVyaW5nIG91dHB1dHMKCllvdSBtYXkgYWxzbyB3YW50IHRvIG51bWJlciBsaW5lcyBvbiBvdXRwdXRzIGJ5IGBjbGFzcy5vdXRwdXQgPSAibnVtYmVyTGluZXMiYC4KSG93ZXZlciwgdGhpcyBjaGFuZ2VzIGJhY2tncm91bmQgY29sb3JzIHRvIGdyYXkuCgpgYGB7ciwgY2xhc3Muc291cmNlID0gIm51bWJlckxpbmVzIiwgY2xhc3Mub3V0cHV0ID0gIm51bWJlckxpbmVzIiwgZWNobyA9IEZBTFNFfQp4IDwtIHNlcSgxMCkKbWVhbih4KQpgYGAKCklmIG91dHB1dCBmb3JtYXQgaXMgaHRtbCwgY3NzIHdpbGwgaGVscC4KCkJlZm9yZSBhZGRpbmcgYGNsYXNzLm91dHB1dCA9ICJudW1iZXJMaW5lcyJgLCBhbiBvdXRwdXQgaW4gaHRtbCBpcwoKYGBgey5odG1sfQo8cHJlPjxjb2RlPiMjIFsxXSA1LjU8L2NvZGU+PC9wcmU+CmBgYAoKQWZ0ZXIgYWRkaW5nIGl0LCB0aGUgb3V0cHV0IGluIGh0bWwgYmVjb21lcwoKYGBgey5odG1sfQo8ZGl2IGNsYXNzPSJzb3VyY2VDb2RlIiBpZD0iY2I3Ij48cHJlIGNsYXNzPSJzb3VyY2VDb2RlIG51bWJlclNvdXJjZSBudW1iZXJMaW5lcyI+PGNvZGUgY2xhc3M9InNvdXJjZUNvZGUiPjxhIGNsYXNzPSJzb3VyY2VMaW5lIiBpZD0iY2I3LTEiIHRpdGxlPSIxIj4jIyBbMV0gNS41PC9hPjwvY29kZT48L3ByZT48L2Rpdj4KYGBgCgpXaGVuIGBjaHVua291dGAgY2xhc3MgaXMgZnVydGhlciBhZGRlZCwgdGhlIG91dHB1dCBpbiBodG1sIGJlY29tZXMKCmBgYHsuaHRtbH0KPGRpdiBjbGFzcz0ic291cmNlQ29kZSIgaWQ9ImNiMTAiPjxwcmUgY2xhc3M9InNvdXJjZUNvZGUgbnVtYmVyU291cmNlIG51bWJlckxpbmVzIGNodW5rb3V0Ij48Y29kZSBjbGFzcz0ic291cmNlQ29kZSI+PGEgY2xhc3M9InNvdXJjZUxpbmUiIGlkPSJjYjEwLTEiIHRpdGxlPSIxIj4jIyBbMV0gNS41PC9hPjwvY29kZT48L3ByZT48L2Rpdj4KYGBgCgpZb3UgY2FuIHNlZSBgY2h1bmtvdXRgIGNsYXNzIGlzIGFkZGVkIHRvIGBwcmVgIHRhZy4KClNvLCBsZXRzIG1vZGlmeSBjc3Mgd2l0aAoKYGBge2Nzc30KZGl2LnNvdXJjZUNvZGUgcHJlLmNodW5rb3V0IHsKICBiYWNrZ3JvdW5kOiB3aGl0ZTsKfQpgYGAKCmFuZCB5b3UnbGwgYmUgaGFwcHksIHJpZ2h0PwoKYGBge3IsIGNsYXNzLnNvdXJjZSA9ICJudW1iZXJMaW5lcyIsIGNsYXNzLm91dHB1dCA9IGMoIm51bWJlckxpbmVzIiwgImNodW5rb3V0IiksIGVjaG8gPSBGQUxTRX0KeCA8LSBzZXEoMTApCm1lYW4oeCkKYGBgCgpTb3JyeSBJIGRvIG5vdCBzdXBwb3J0IHBkZiBiZWNhdXNlICRMYVRlWCQga2lsbHMgbWUuCgojIyBOdW1iZXJpbmcgaW4gZGVmYXVsdAoKU3VwZXIgZWFzeS4KClJ1biBmb2xsb3dpbmcgYXQganVzdCBhZnRlciBhIFlBTUwgZnJvbnQgbWF0dGVyLgoKYGBgYHsucn0KYGBge2ByICJyImAgc2V0dXB9CmtuaXRyOjpvcHRzX2NodW5rJHNldCgKICBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMiLAogIGNsYXNzLm91dHB1dCA9IGMoIm51bWJlckxpbmVzIiwgImNodW5rb3V0IikKKQpgYGAKCmBgYHtgciAiY3NzImB9CmRpdi5zb3VyY2VDb2RlIHByZS5jaHVua291dCB7CiAgYmFja2dyb3VuZDogd2hpdGU7Cn0KYGBgCmBgYGAKCk5vdGUgdGhhdCB0aGlzIGRvZXMgbm90IGFmZmVjdCBwYW5kb2Mgc3R5bGUgZmVuY2VkIGNvZGUuCkFjY29yZGluZyB0byBwYW5kb2MncyBkb2N1bWVudCwgc2V0dGluZyB1cCBhIGZvbGxvd2luZyBZQU1MIGZyb250IG1hdHRlciBzaG91bGQgd29yaywgYnV0IGRvZXNuJ3QuCgpgYGB7LnlhbWx9Cm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDogCiAgICBoaWdobGlnaHQ6IHB5Z21lbnQKICAgICAgcGFub2NfYXJnczoKICAgICAgICAtIC0taW5kZW50ZWQtY29kZS1jbGFzc2VzCiAgICAgICAgLSBudW1iZXJMaW5lcwpgYGAKCgoKIyBFbmpveSAh</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiBOdW1iZXIgbGluZXMgaW4gY29kZSBibG9ja3Mgd2l0aCBSbWFya2Rvd24KYXV0aG9yOiBBdHVzeQpvdXRwdXQ6IAogICMgd29ya3MKICBodG1sX2RvY3VtZW50OiAKICAgIGhpZ2hsaWdodDogcHlnbWVudAogICAgdG9jOiB0cnVlCiAgICB0b2NfZmxvYXQ6IHRydWUKICAgIG51bWJlcl9zZWN0aW9uczogdHJ1ZQogIHBkZl9kb2N1bWVudDogZGVmYXVsdAogICMgbm90IHdvcmtzCiAgaHRtbF9ub3RlYm9vazogCiAgICBoaWdobGlnaHQ6IHB5Z21lbnQKICB3b3JkX2RvY3VtZW50OiBkZWZhdWx0Ci0tLQoKKipCZWZvcmUgcmVhZGluZyoqCgotIEZvciBxdWljayBzdGFydCwgZ28gIltBdXRvbnVtYmVyaW5nXSIuCi0gQSBzb3VyY2UgYW5kIG91dHB1dCBleGFtcGxlcyBpbiB2YXJpZXR5IG9mIGZvcm1hdHMgYXJlIG9uIEdpdEh1YiBbYGF0dXN5L3JtZC1saW5lLW51bWBdKGh0dHBzOi8vZ2l0aHViLmNvbS9hdHVzeS9ybWQtbGluZS1udW0pLgotIEFzayBtZSBxdWVzdGlvbnMgb24gW0dpdEh1YiBJc3N1ZXNdKGh0dHBzOi8vZ2l0aHViLmNvbS9hdHVzeS9ybWQtbGluZS1udW0vaXNzdWVzKSBvciBvbiBUd2l0dGVyIChbXEBBdHN1c2hpNzc2XShodHRwczovL3R3aXR0ZXIuY29tL0F0c3VzaGk3NzYpKQoKIyBOdW1iZXIgUGFuZG9jJ3MgZmVuY2VkIGNvZGUKClBhbmRvYyBoYXMgYW4gb2ZmaWNpYWwgc3VwcG9ydCB0byBudW1iZXIgbGluZXMgb24gZmVuY2VkIGNvZGUgYnkgZ2l2aW5nIGEgY2xhc3MgYXR0cmlidXRlIGBudW1iZXJMaW5lc2AgCig8aHR0cHM6Ly93d3cucGFuZG9jLm9yZy9NQU5VQUwuaHRtbCNleHRlbnNpb24tZmVuY2VkX2NvZGVfYXR0cmlidXRlcz4pLgoKTm90ZSB0aGF0IGNsYXNzIGF0dHJpYnV0ZXMgcmVxdWlyZSBgLmAgYmVmb3JlIHRoZSBjbGFzcyBuYW1lLgoKYGBgYHsubnVtYmVyTGluZXN9CmBgYHsuciAubnVtYmVyTGluZXN9CnggPC0gcm5vcm0oMTApCm1lYW4oeCkKYGBgCmBgYGAKClNob3VsZCBiZWNvbWUKCmBgYHsuciAubnVtYmVyTGluZXN9CnggPC0gcm5vcm0oMTApCm1lYW4oeCkKYGBgCgpUaGlzIGlzIGVub3VnaCBmb3IgYHJtYXJrZG93bjo6cGRmX2RvY3VtZW50YC4KCkZvciBgaHRtbF9kb2N1bWVudGAsIHdlIGFsc28gbmVlZCBgaGlnaGxpZ2h0OnB5Z21lbnRgIGluIFlBTUwgZnJvbnQgbWF0dGVyW15weWdtZW50XS4KCltecHlnbWVudF06ICJDaHVuayBudW1iZXJMaW5lcyBob29rXSIgb24gUnB1YnMgZmlndXJlZCBvdXQgcmVxdWlyZW1lbnQgb2YgYHB5Z21lbnRgICg8aHR0cHM6Ly9ycHVicy5jb20vVGhlbGwvbnVtYmVyTGluZXM+KS4KCmBgYHsueWFtbCAubnVtYmVyTGluZXN9Ci0tLQp0aXRsZTogTGluZSBudW1iZXJzIHdpdGggUm1hcmtkb3duIGRvY3VtZW50cwpvdXRwdXQ6IAogIGh0bWxfZG9jdW1lbnQ6CiAgICBoaWdobGlnaHQ6IHB5Z21lbnQKICBwZGZfZG9jdW1lbnQ6IGRlZmF1bHQKLS0tCmBgYAoKCgojIE51bWJlciBSbWFya2Rvd24ncyBjaHVua3MgYW5kIG91dHB1dHMKClRoZSBhYm92ZSBzdWNjZXNzIGluZmVycyBhIHN1Y2Nlc3MgaW4gY2h1bmtzIG9mIFJtYXJrZG93bi4KCiMjIE51bWJlcmluZyBjaHVua3MKCkZvciBjb2RlIGNodW5rcyBvZiBSbWFya2Rvd24gZG9jdW1lbnRzLApgbnVtYmVyTGluZXNgIGNsYXNzIGNhbiBiZSBnaXZlbiBieSBhc3NpZ25pbmcgYGNsYXNzLnNvdXJjZSA9ICJudW1iZXJMaW5lcyJgIGFzIGEgY2h1bmsgb3B0aW9uW155aWh1aV0uIAoKW155aWh1aV06IFNlZSAiVGV4IFJlc3VsdHMiIHNlY3Rpb24gb2YgIkNodW5rIG9wdGlvbnMgYW5kIHBhY2thZ2Ugb3B0aW9ucyIgYnkgWWkgSHVpICg8aHR0cHM6Ly95aWh1aS5uYW1lL2tuaXRyL29wdGlvbnMvI3RleHQtcmVzdWx0cz4pCgpBZ2FpbiwgeW91IG5lZWQgYGhpZ2hsaWdodDogcHlnbWVudGAgZm9yIGBodG1sX2RvY3VtZW50YC4KClRodXMsCgpgYGBgey5udW1iZXJMaW5lc30KLS0tCnRpdGxlOiBMaW5lIG51bWJlcnMgd2l0aCBSbWFya2Rvd24gZG9jdW1lbnRzCm91dHB1dDogCiAgaHRtbF9kb2N1bWVudDoKICAgIGhpZ2hsaWdodDogcHlnbWVudAotLS0KCmBgYHtgciAiciJgLCBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMifQp4IDwtIHNlcSgxMCkKbWVhbih4KQpgYGAKYGBgYAoKYmVjb21lcwoKYGBge3IsIGNsYXNzLnNvdXJjZSA9ICJudW1iZXJMaW5lcyJ9CnggPC0gc2VxKDEwKQptZWFuKHgpCmBgYAoKR3JlYXQgYWdhaW4hIQoKClVuZm9ydHVuYXRlbHksIGxpbmUgbnVtYmVyaW5nIGRvZXMgbm90IHdvcmsgb24gYHJtYXJrZG93bjo6d29yZF9kb2N1bWVudGAuCgpJdCBkb2VzIG5vdCB3b3JrIHByb3Blcmx5IG9uIGBybWFya2Rvd246Omh0bWxfbm90ZWJvb2tgIGFuZCBgYmxvZ2Rvd246Omh0bWxfcGFnZWAgYXMgd2VsbC4KSSBndWVzcyBzb21lIHRyaWNrcyByZXF1aXJlZCBpbiBDU1Mgb3IgSlMuCgojIyBOdW1iZXJpbmcgb3V0cHV0cwoKWW91IG1heSBhbHNvIHdhbnQgdG8gbnVtYmVyIGxpbmVzIG9uIG91dHB1dHMgYnkgYGNsYXNzLm91dHB1dCA9ICJudW1iZXJMaW5lcyJgLgpIb3dldmVyLCB0aGlzIGNoYW5nZXMgYmFja2dyb3VuZCBjb2xvcnMgdG8gZ3JheS4KCmBgYHtyLCBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMiLCBjbGFzcy5vdXRwdXQgPSAibnVtYmVyTGluZXMiLCBlY2hvID0gRkFMU0V9CnggPC0gc2VxKDEwKQptZWFuKHgpCmBgYAoKSWYgb3V0cHV0IGZvcm1hdCBpcyBodG1sLCBjc3Mgd2lsbCBoZWxwLgoKQmVmb3JlIGFkZGluZyBgY2xhc3Mub3V0cHV0ID0gIm51bWJlckxpbmVzImAsIGFuIG91dHB1dCBpbiBodG1sIGlzCgpgYGB7Lmh0bWwgLm51bWJlckxpbmVzfQo8cHJlPjxjb2RlPiMjIFsxXSA1LjU8L2NvZGU+PC9wcmU+CmBgYAoKQWZ0ZXIgYWRkaW5nIGl0LCB0aGUgb3V0cHV0IGluIGh0bWwgYmVjb21lcwoKYGBgey5odG1sIC5udW1iZXJMaW5lc30KPGRpdiBjbGFzcz0ic291cmNlQ29kZSIgaWQ9ImNiNyI+PHByZSBjbGFzcz0ic291cmNlQ29kZSBudW1iZXJTb3VyY2UgbnVtYmVyTGluZXMiPjxjb2RlIGNsYXNzPSJzb3VyY2VDb2RlIj48YSBjbGFzcz0ic291cmNlTGluZSIgaWQ9ImNiNy0xIiB0aXRsZT0iMSI+IyMgWzFdIDUuNTwvYT48L2NvZGU+PC9wcmU+PC9kaXY+CmBgYAoKV2hlbiBgY2h1bmtvdXRgIGNsYXNzIGlzIGZ1cnRoZXIgYWRkZWQsIHRoZSBvdXRwdXQgaW4gaHRtbCBiZWNvbWVzCgpgYGB7Lmh0bWwgLm51bWJlckxpbmVzfQo8ZGl2IGNsYXNzPSJzb3VyY2VDb2RlIiBpZD0iY2IxMCI+PHByZSBjbGFzcz0ic291cmNlQ29kZSBudW1iZXJTb3VyY2UgbnVtYmVyTGluZXMgY2h1bmtvdXQiPjxjb2RlIGNsYXNzPSJzb3VyY2VDb2RlIj48YSBjbGFzcz0ic291cmNlTGluZSIgaWQ9ImNiMTAtMSIgdGl0bGU9IjEiPiMjIFsxXSA1LjU8L2E+PC9jb2RlPjwvcHJlPjwvZGl2PgpgYGAKCllvdSBjYW4gc2VlIGBjaHVua291dGAgY2xhc3MgaXMgYWRkZWQgdG8gYHByZWAgdGFnLgoKU28sIGxldHMgbW9kaWZ5IGNzcyB3aXRoCgpgYGB7Y3NzLCBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMifQpkaXYuc291cmNlQ29kZSBwcmUuY2h1bmtvdXQgewogIGJhY2tncm91bmQ6IHdoaXRlOwp9CmBgYAoKYW5kIHlvdSdsbCBiZSBoYXBweSwgcmlnaHQ/CgpgYGB7ciwgY2xhc3Muc291cmNlID0gIm51bWJlckxpbmVzIiwgY2xhc3Mub3V0cHV0ID0gYygibnVtYmVyTGluZXMiLCAiY2h1bmtvdXQiKSwgZWNobyA9IEZBTFNFfQp4IDwtIHNlcSgxMCkKbWVhbih4KQpgYGAKClNvcnJ5IEkgZG8gbm90IHN1cHBvcnQgcGRmIGJlY2F1c2UgJExhVGVYJCBraWxscyBtZS4KCiMgQXV0b251bWJlcmluZwoKLSBTdXBlciBlYXN5IGJ5IGEgZm9sbG93aW5nIHRlbXBsYXRlIGFuZCBlZGl0IGFmdGVyIGA8IS0tIFN0YXJ0IHlvdXIgYm9keSAtLT5gLgotIERpc2FibGUgbnVtYmVyaW5nIGJ5IGBjbGFzcy5zb3VyY2UgPSBOVUxMLCBjbGFzcy5vdXRwdXQgPSBOVUxMYC4KLSBOb3RlIGF1dG9udW1iZXJpbmcgZG9lcyBub3Qgd29yayBvbiBQYW5kb2MncyBmZW5jZWQgY29kZSBbXnBhbmRvY10uCiAgCiAgW15wYW5kb2NdOiBUaGUgZG9jdW1lbnQgaW5kaWNhdGVzIGEgZm9sbG93aW5nIFlBTUwgZnJvbnQgbWF0dGVyIHNob3VsZCB3b3JrLCBidXQgZG9lc24ndCAoPGh0dHBzOi8vd3d3LnBhbmRvYy5vcmcvTUFOVUFMLmh0bWwjcmVhZGVyLW9wdGlvbnM+KS4KCiAgYGBgey55YW1sIC5udW1iZXJMaW5lc30KICAtLS0KICBvdXRwdXQ6CiAgICBodG1sX2RvY3VtZW50OgogICAgICBoaWdobGlnaHQ6IHB5Z21lbnQKICAgICAgcGFuZG9jX2FyZ3M6CiAgICAgICAgLSAtLWluZGVudGVkLWNvZGUtY2xhc3NlcwogICAgICAgIC0gbGluZU51bWJlcnMKICAtLS0KICBgYGAKCiMjIElucHV0IHdpdGggYSB0ZW1wbGF0ZQoKYGBgYHsubnVtYmVyTGluZXN9Ci0tLQpvdXRwdXQ6CiAgaHRtbF9kb2N1bWVudDoKICAgIGhpZ2hsaWdodDogcHlnbWVudAogIHBkZl9kb2N1bWVudDogZGVmYXVsdAotLS0KCmBgYHtgciAiciJgIHNldHVwLCBpbmNsdWRlID0gRkFMU0V9CmtuaXRyOjpvcHRzX2NodW5rJHNldCgKICBjbGFzcy5zb3VyY2UgPSAibnVtYmVyTGluZXMiLCAKICBjbGFzcy5vdXRwdXQgPSBjKCJudW1iZXJMaW5lcyIsICJjaHVua291dCIpIAopCgojIEFkZCBzb21lIGFyYml0cmFyeSBzZXR1cCBjb2RlcwpgYGAKCgpgYGB7YHIgImNzcyJgLCBlY2hvID0gRkFMU0V9CmRpdi5zb3VyY2VDb2RlIHByZS5jaHVua291dCB7CiAgYmFja2dyb3VuZDogd2hpdGU7Cn0KYGBgCgo8IS0tIFN0YXJ0IHlvdXIgYm9keSAtLT4KCioqTnVtYmVyZWQqKgoKYGBge2ByICJyImB9CnggPC0gc2VxKDEwKQptZWFuKHgpCmBgYAoKKipVbm51bWJlcmVkKioKCmBgYHtgciAiciJgLCBjbGFzcy5zb3VyY2UgPSBOVUxMLCBjbGFzcy5vdXRwdXQgPSBOVUxMfQp4IDwtIHNlcSgxMCkKbWVhbih4KQpgYGAKCmBgYGAKCiMjIE91dHB1dCBmcm9tIHRoZSB0ZW1wbGF0ZQoKKipOdW1iZXJlZCoqCgpgYGB7ciwgY2xhc3Muc291cmNlID0gIm51bWJlckxpbmVzIiwgY2xhc3Mub3V0cHV0ID0gYygibnVtYmVyTGluZXMiLCAiY2h1bmtvdXQiKX0KeCA8LSBzZXEoMTApCm1lYW4oeCkKYGBgCgoqKlVubnVtYmVyZWQqKgoKYGBge3IsIGNsYXNzLnNvdXJjZSA9IE5VTEwsIGNsYXNzLm91dHB1dCA9IE5VTEx9CnggPC0gc2VxKDEwKQptZWFuKHgpCmBgYAoKIyBFbmpveSAh</div>
 
 
 

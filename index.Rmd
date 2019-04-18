@@ -2,58 +2,80 @@
 title: Number lines in code blocks with Rmarkdown
 author: Atusy
 output: 
+  # works
   html_document: 
     highlight: pygment
     toc: true
+    toc_float: true
     number_sections: true
+  pdf_document: default
+  # not works
   html_notebook: 
     highlight: pygment
-  pdf_document: default
   word_document: default
 ---
 
-**Go [`atusy/rmd-line-num`](https://github.com/atusy/rmd-line-num) on GitHub to see source files and output examples in variety of formats.**
+**Before reading**
 
-# In pandoc style fenced code
+- For quick start, go "[Autonumbering]".
+- A source and output examples in variety of formats are on GitHub [`atusy/rmd-line-num`](https://github.com/atusy/rmd-line-num).
+- Ask me questions on [GitHub Issues](https://github.com/atusy/rmd-line-num/issues) or on Twitter ([\@Atsushi776](https://twitter.com/Atsushi776))
+
+# Number Pandoc's fenced code
 
 Pandoc has an official support to number lines on fenced code by giving a class attribute `numberLines` 
 (<https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes>).
 
 Note that class attributes require `.` before the class name.
 
-````
+````{.numberLines}
 ```{.r .numberLines}
 x <- rnorm(10)
 mean(x)
 ```
 ````
 
-becomes
+Should become
 
 ```{.r .numberLines}
 x <- rnorm(10)
 mean(x)
 ```
-
-Great!
-
-# In Rmarkdown's chunk
-
-The above success infers a success in chunks of Rmarkdown.
-
-For code chunks of Rmarkdown documents,
-`numberLines` class can be given by assigning `class.source = "numberLines"` as a chunk option. [^yihui]
-
-[^yihui]: See "Tex Results" section of "Chunk options and package options" by Yi Hui (<https://yihui.name/knitr/options/#text-results>)
 
 This is enough for `rmarkdown::pdf_document`.
-On the other hand, `rmarkdown::html_document` requires `highlyght: pygment` in a YAML front matter[^pygment].
+
+For `html_document`, we also need `highlight:pygment` in YAML front matter[^pygment].
 
 [^pygment]: "Chunk numberLines hook]" on Rpubs figured out requirement of `pygment` (<https://rpubs.com/Thell/numberLines>).
 
+```{.yaml .numberLines}
+---
+title: Line numbers with Rmarkdown documents
+output: 
+  html_document:
+    highlight: pygment
+  pdf_document: default
+---
+```
+
+
+
+# Number Rmarkdown's chunks and outputs
+
+The above success infers a success in chunks of Rmarkdown.
+
+## Numbering chunks
+
+For code chunks of Rmarkdown documents,
+`numberLines` class can be given by assigning `class.source = "numberLines"` as a chunk option[^yihui]. 
+
+[^yihui]: See "Tex Results" section of "Chunk options and package options" by Yi Hui (<https://yihui.name/knitr/options/#text-results>)
+
+Again, you need `highlight: pygment` for `html_document`.
+
 Thus,
 
-````
+````{.numberLines}
 ---
 title: Line numbers with Rmarkdown documents
 output: 
@@ -96,19 +118,19 @@ If output format is html, css will help.
 
 Before adding `class.output = "numberLines"`, an output in html is
 
-```{.html}
+```{.html .numberLines}
 <pre><code>## [1] 5.5</code></pre>
 ```
 
 After adding it, the output in html becomes
 
-```{.html}
+```{.html .numberLines}
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb7-1" title="1">## [1] 5.5</a></code></pre></div>
 ```
 
 When `chunkout` class is further added, the output in html becomes
 
-```{.html}
+```{.html .numberLines}
 <div class="sourceCode" id="cb10"><pre class="sourceCode numberSource numberLines chunkout"><code class="sourceCode"><a class="sourceLine" id="cb10-1" title="1">## [1] 5.5</a></code></pre></div>
 ```
 
@@ -116,7 +138,7 @@ You can see `chunkout` class is added to `pre` tag.
 
 So, lets modify css with
 
-```{css}
+```{css, class.source = "numberLines"}
 div.sourceCode pre.chunkout {
   background: white;
 }
@@ -131,39 +153,83 @@ mean(x)
 
 Sorry I do not support pdf because $LaTeX$ kills me.
 
-## Numbering in default
+# Autonumbering
 
-Super easy.
+- Super easy by a following template and edit after `<!-- Start your body -->`.
+- Disable numbering by `class.source = NULL, class.output = NULL`.
+- Note autonumbering does not work on Pandoc's fenced code [^pandoc].
+  
+  [^pandoc]: The document indicates a following YAML front matter should work, but doesn't (<https://www.pandoc.org/MANUAL.html#reader-options>).
 
-Run following at just after a YAML front matter.
+  ```{.yaml .numberLines}
+  ---
+  output:
+    html_document:
+      highlight: pygment
+      pandoc_args:
+        - --indented-code-classes
+        - lineNumbers
+  ---
+  ```
 
-````{.r}
-```{`r "r"` setup}
+## Input with a template
+
+````{.numberLines}
+---
+output:
+  html_document:
+    highlight: pygment
+  pdf_document: default
+---
+
+```{`r "r"` setup, include = FALSE}
 knitr::opts_chunk$set(
-  class.source = "numberLines",
-  class.output = c("numberLines", "chunkout")
+  class.source = "numberLines", 
+  class.output = c("numberLines", "chunkout") 
 )
+
+# Add some arbitrary setup codes
 ```
 
-```{`r "css"`}
+
+```{`r "css"`, echo = FALSE}
 div.sourceCode pre.chunkout {
   background: white;
 }
 ```
-````
 
-Note that this does not affect pandoc style fenced code.
-According to pandoc's document, setting up a following YAML front matter should work, but doesn't.
+<!-- Start your body -->
 
-```{.yaml}
-output: 
-  html_document: 
-    highlight: pygment
-      panoc_args:
-        - --indented-code-classes
-        - numberLines
+**Numbered**
+
+```{`r "r"`}
+x <- seq(10)
+mean(x)
 ```
 
+**Unnumbered**
 
+```{`r "r"`, class.source = NULL, class.output = NULL}
+x <- seq(10)
+mean(x)
+```
+
+````
+
+## Output from the template
+
+**Numbered**
+
+```{r, class.source = "numberLines", class.output = c("numberLines", "chunkout")}
+x <- seq(10)
+mean(x)
+```
+
+**Unnumbered**
+
+```{r, class.source = NULL, class.output = NULL}
+x <- seq(10)
+mean(x)
+```
 
 # Enjoy !

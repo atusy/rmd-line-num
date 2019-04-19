@@ -1600,6 +1600,8 @@ div.tocify {
 
 <h1 class="title toc-ignore">Number lines in code blocks with Rmarkdown</h1>
 <h4 class="author">Atusy</h4>
+<h4 class="date"><p>Created on 2019-04-18.<br />
+Updated on 2019-04-19.</p></h4>
 
 </div>
 
@@ -1612,17 +1614,17 @@ div.tocify {
 </ul>
 <div id="number-pandocs-fenced-code" class="section level1">
 <h1><span class="header-section-number">1</span> Number Pandoc’s fenced code</h1>
-<p>Pandoc has an official support to number lines on fenced code by giving a class attribute <code>numberLines</code> (<a href="https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes" class="uri">https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes</a>).</p>
+<p>Pandoc has an official support to number lines on fenced code by giving a class attribute <code>numberLines</code> (<a href="https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes" class="uri">https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes</a>). The document also introduces that <code>lineAnchors</code> class makes line numbers be clickable, and <code>startFrom</code> arugment supports specify starting number.</p>
 <p>Note that class attributes require <code>.</code> before the class name.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb1-1" title="1">```{.r .numberLines}</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb1-1" title="1">```{.r .numberLines .lineAnchors startFrom=&quot;11&quot;}</a>
 <a class="sourceLine" id="cb1-2" title="2">x &lt;- rnorm(10)</a>
 <a class="sourceLine" id="cb1-3" title="3">mean(x)</a>
 <a class="sourceLine" id="cb1-4" title="4">```</a></code></pre></div>
-<p>Should become</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<p>becomes</p>
+<div class="sourceCode" id="cb2" startFrom="11"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb2-11" href="#cb2-11" title="11">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb2-12" href="#cb2-12" title="12"><span class="kw">mean</span>(x)</a></code></pre></div>
 <p>This is enough for <code>rmarkdown::pdf_document</code>.</p>
-<p>For <code>html_document</code>, we also need <code>highlight:pygment</code> in YAML front matter<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.</p>
+<p>For <code>html_document</code>, we also need to specify <code>highlight</code> other than <code>default</code> in YAML front matter<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a><sup>,</sup> <a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>. See <code>?rmarkdown::html_document</code> for available <code>highlight</code> options.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb3-1" title="1"><span class="ot">---</span></a>
 <a class="sourceLine" id="cb3-2" title="2"><span class="fu">title:</span><span class="at"> Line numbers with Rmarkdown documents</span></a>
 <a class="sourceLine" id="cb3-3" title="3"><span class="fu">output:</span><span class="at"> </span></a>
@@ -1636,8 +1638,8 @@ div.tocify {
 <p>The above success infers a success in chunks of Rmarkdown.</p>
 <div id="numbering-chunks" class="section level2">
 <h2><span class="header-section-number">2.1</span> Numbering chunks</h2>
-<p>For code chunks of Rmarkdown documents, <code>numberLines</code> class can be given by assigning <code>class.source = &quot;numberLines&quot;</code> as a chunk option<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a>.</p>
-<p>Again, you need <code>highlight: pygment</code> for <code>html_document</code>.</p>
+<p>For code chunks of Rmarkdown documents, <code>numberLines</code> class can be given by assigning <code>class.source = &quot;numberLines&quot;</code> as a chunk option<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>. You may also add <code>lineAnchors</code> demilited by space (<code>&quot;numberLines lineAnchors</code>&quot;) or as another element of vector (<code>c(&quot;numberLines&quot;, &quot;lineAnchors&quot;)</code>) <a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>. Unfortunately, I find no way to add <code>startFrom=&quot;integer&quot;</code>.</p>
+<p>Again, you need to specify <code>highlight</code> for <code>html_document</code>.</p>
 <p>Thus,</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb4-1" title="1">---</a>
 <a class="sourceLine" id="cb4-2" title="2">title: Line numbers with Rmarkdown documents</a>
@@ -1646,13 +1648,13 @@ div.tocify {
 <a class="sourceLine" id="cb4-5" title="5">    highlight: pygment</a>
 <a class="sourceLine" id="cb4-6" title="6">---</a>
 <a class="sourceLine" id="cb4-7" title="7"></a>
-<a class="sourceLine" id="cb4-8" title="8">```{r, class.source = &quot;numberLines&quot;}</a>
+<a class="sourceLine" id="cb4-8" title="8">```{r, class.source = &quot;numberLines lineAnchors&quot;}</a>
 <a class="sourceLine" id="cb4-9" title="9">x &lt;- seq(10)</a>
 <a class="sourceLine" id="cb4-10" title="10">mean(x)</a>
 <a class="sourceLine" id="cb4-11" title="11">```</a></code></pre></div>
 <p>becomes</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" href="#cb5-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb5-2" href="#cb5-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
 <pre><code>## [1] 5.5</code></pre>
 <p>Great again!!</p>
 <p>Unfortunately, line numbering does not work on <code>rmarkdown::word_document</code>.</p>
@@ -1660,7 +1662,7 @@ div.tocify {
 </div>
 <div id="numbering-outputs" class="section level2">
 <h2><span class="header-section-number">2.2</span> Numbering outputs</h2>
-<p>You may also want to number lines on outputs by <code>class.output = &quot;numberLines&quot;</code>. However, this changes background colors to gray.</p>
+<p>You may also want to number lines on outputs by <code>class.output = &quot;numberLines&quot;</code> with or without <code>lineAnchors</code> just like input. However, this changes background colors to gray.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb7-1" title="1">## [1] 5.5</a></code></pre></div>
 <p>If output format is html, css will help.</p>
 <p>Before adding <code>class.output = &quot;numberLines&quot;</code>, an output in html is</p>
@@ -1689,7 +1691,7 @@ div.sourceCode pre.chunkout {
 <ul>
 <li><p>Super easy by a following template and edit after <code>&lt;!-- Start your body --&gt;</code>.</p></li>
 <li><p>Disable numbering by <code>class.source = NULL, class.output = NULL</code>.</p></li>
-<li><p>Note autonumbering does not work on Pandoc’s fenced code <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
+<li><p>Note autonumbering does not work on Pandoc’s fenced code <a href="#fn5" class="footnote-ref" id="fnref5"><sup>5</sup></a>.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb13-1" title="1"><span class="ot">---</span></a>
 <a class="sourceLine" id="cb13-2" title="2"><span class="fu">output:</span></a>
 <a class="sourceLine" id="cb13-3" title="3">  <span class="fu">html_document:</span></a>
@@ -1710,8 +1712,8 @@ div.sourceCode pre.chunkout {
 <a class="sourceLine" id="cb14-7" title="7"></a>
 <a class="sourceLine" id="cb14-8" title="8">```{r setup, include = FALSE}</a>
 <a class="sourceLine" id="cb14-9" title="9">knitr::opts_chunk$set(</a>
-<a class="sourceLine" id="cb14-10" title="10">  class.source = &quot;numberLines&quot;, </a>
-<a class="sourceLine" id="cb14-11" title="11">  class.output = c(&quot;numberLines&quot;, &quot;chunkout&quot;) </a>
+<a class="sourceLine" id="cb14-10" title="10">  class.source = &quot;numberLines lineAnchors&quot;, </a>
+<a class="sourceLine" id="cb14-11" title="11">  class.output = c(&quot;numberLines lineAnchors chunkout&quot;) </a>
 <a class="sourceLine" id="cb14-12" title="12">)</a>
 <a class="sourceLine" id="cb14-13" title="13"></a>
 <a class="sourceLine" id="cb14-14" title="14"># Add some arbitrary setup codes</a>
@@ -1743,9 +1745,9 @@ div.sourceCode pre.chunkout {
 <div id="output-from-the-template" class="section level2">
 <h2><span class="header-section-number">3.2</span> Output from the template</h2>
 <p><strong>Numbered</strong></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource numberLines chunkout"><code class="sourceCode"><a class="sourceLine" id="cb16-1" title="1">## [1] 5.5</a></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r numberLines lineAnchors"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" href="#cb15-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb15-2" href="#cb15-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource numberLines lineAnchors chunkout"><code class="sourceCode"><a class="sourceLine" id="cb16-1" href="#cb16-1" title="1">## [1] 5.5</a></code></pre></div>
 <p><strong>Unnumbered</strong></p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb17-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
@@ -1759,8 +1761,10 @@ div.sourceCode pre.chunkout {
 <hr />
 <ol>
 <li id="fn1"><p>“Chunk numberLines hook]” on Rpubs figured out requirement of <code>pygment</code> (<a href="https://rpubs.com/Thell/numberLines" class="uri">https://rpubs.com/Thell/numberLines</a>).<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>See “Tex Results” section of “Chunk options and package options” by Yi Hui (<a href="https://yihui.name/knitr/options/#text-results" class="uri">https://yihui.name/knitr/options/#text-results</a>)<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>The document indicates a following YAML front matter should work, but doesn’t (<a href="https://www.pandoc.org/MANUAL.html#reader-options" class="uri">https://www.pandoc.org/MANUAL.html#reader-options</a>).<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn2"><p><a href>@niszet0</a> mentioned that not only <code>pygment</code> but also <code>highlight</code> other than <code>default</code> are acceptable (<a href="https://niszet.hatenablog.com/entry/2019/04/18/194246" class="uri">https://niszet.hatenablog.com/entry/2019/04/18/194246</a> in Japanese).<a href="#fnref2" class="footnote-back">↩</a></p></li>
+<li id="fn3"><p>See “Tex Results” section of “Chunk options and package options” by Yi Hui (<a href="https://yihui.name/knitr/options/#text-results" class="uri">https://yihui.name/knitr/options/#text-results</a>)<a href="#fnref3" class="footnote-back">↩</a></p></li>
+<li id="fn4"><p><a href="https://twitter.com/niszet0">@niszet</a> mentioned me on Twitter <a href="https://twitter.com/niszet0/status/1118837863200591872" class="uri">https://twitter.com/niszet0/status/1118837863200591872</a><a href="#fnref4" class="footnote-back">↩</a></p></li>
+<li id="fn5"><p>The document indicates a following YAML front matter should work, but doesn’t (<a href="https://www.pandoc.org/MANUAL.html#reader-options" class="uri">https://www.pandoc.org/MANUAL.html#reader-options</a>).<a href="#fnref5" class="footnote-back">↩</a></p></li>
 </ol>
 </div>
 

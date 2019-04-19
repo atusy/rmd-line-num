@@ -1,6 +1,9 @@
 ---
 title: Number lines in code blocks with Rmarkdown
 author: Atusy
+date: |
+  Created on 2019-04-18. \
+  Updated on `r Sys.Date()`.
 output: 
   # works
   html_document: 
@@ -23,30 +26,34 @@ output:
 
 # Number Pandoc's fenced code
 
-Pandoc has an official support to number lines on fenced code by giving a class attribute `numberLines` 
-(<https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes>).
+Pandoc has an official support to number lines on fenced code by giving a class attribute `numberLines` (<https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes>).
+The document also introduces that
+`lineAnchors` class makes line numbers be clickable, and
+`startFrom` arugment supports specify starting number.
 
 Note that class attributes require `.` before the class name.
 
 ````{.numberLines}
-```{.r .numberLines}
+```{.r .numberLines .lineAnchors startFrom="11"}
 x <- rnorm(10)
 mean(x)
 ```
 ````
 
-Should become
+becomes
 
-```{.r .numberLines}
+```{.r .numberLines .lineAnchors startFrom="11"}
 x <- rnorm(10)
 mean(x)
 ```
 
 This is enough for `rmarkdown::pdf_document`.
 
-For `html_document`, we also need `highlight:pygment` in YAML front matter[^pygment].
+For `html_document`, we also need to specify `highlight` other than `default` in YAML front matter[^highlight]^,^ [^niszet]. See `?rmarkdown::html_document` for available `highlight` options.
 
-[^pygment]: "Chunk numberLines hook]" on Rpubs figured out requirement of `pygment` (<https://rpubs.com/Thell/numberLines>).
+[^highlight]: "Chunk numberLines hook]" on Rpubs figured out requirement of `pygment` (<https://rpubs.com/Thell/numberLines>).
+
+[^niszet]: [\@niszet0]() mentioned that not only `pygment` but also `highlight` other than `default` are acceptable (<https://niszet.hatenablog.com/entry/2019/04/18/194246> in Japanese).
 
 ```{.yaml .numberLines}
 ---
@@ -68,10 +75,14 @@ The above success infers a success in chunks of Rmarkdown.
 
 For code chunks of Rmarkdown documents,
 `numberLines` class can be given by assigning `class.source = "numberLines"` as a chunk option[^yihui]. 
+You may also add `lineAnchors` demilited by space (`"numberLines lineAnchors`") or as another element of vector (`c("numberLines", "lineAnchors")`) [^niszet-tweet].
+Unfortunately, I find no way to add `startFrom="integer"`.
 
 [^yihui]: See "Tex Results" section of "Chunk options and package options" by Yi Hui (<https://yihui.name/knitr/options/#text-results>)
 
-Again, you need `highlight: pygment` for `html_document`.
+[^niszet-tweet]: [\@niszet](https://twitter.com/niszet0) mentioned me on Twitter <https://twitter.com/niszet0/status/1118837863200591872>
+
+Again, you need to specify `highlight` for `html_document`.
 
 Thus,
 
@@ -83,7 +94,7 @@ output:
     highlight: pygment
 ---
 
-```{`r "r"`, class.source = "numberLines"}
+```{`r "r"`, class.source = "numberLines lineAnchors"}
 x <- seq(10)
 mean(x)
 ```
@@ -91,7 +102,7 @@ mean(x)
 
 becomes
 
-```{r, class.source = "numberLines"}
+```{r, class.source = "numberLines lineAnchors"}
 x <- seq(10)
 mean(x)
 ```
@@ -106,7 +117,7 @@ I guess some tricks required in CSS or JS.
 
 ## Numbering outputs
 
-You may also want to number lines on outputs by `class.output = "numberLines"`.
+You may also want to number lines on outputs by `class.output = "numberLines"` with or without `lineAnchors` just like input.
 However, this changes background colors to gray.
 
 ```{r, class.source = "numberLines", class.output = "numberLines", echo = FALSE}
@@ -184,8 +195,8 @@ output:
 
 ```{`r "r"` setup, include = FALSE}
 knitr::opts_chunk$set(
-  class.source = "numberLines", 
-  class.output = c("numberLines", "chunkout") 
+  class.source = "numberLines lineAnchors", 
+  class.output = c("numberLines lineAnchors chunkout") 
 )
 
 # Add some arbitrary setup codes
@@ -220,7 +231,14 @@ mean(x)
 
 **Numbered**
 
-```{r, class.source = "numberLines", class.output = c("numberLines", "chunkout")}
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  class.source = "numberLines lineAnchors", 
+  class.output = "numberLines lineAnchors chunkout"
+)
+```
+
+```{r}
 x <- seq(10)
 mean(x)
 ```

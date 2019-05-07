@@ -8,17 +8,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width">
-<meta property="og:title" content="Line number on code blocks with Rmarkdown" />
+<meta property="og:title" content="html-paged.utf8.md" />
 
 
 
 
-<meta name="author" content="Atusy" />
 
 
-<meta name="description" content="Line number on code blocks with Rmarkdown">
+<meta name="description" content="html-paged.utf8.md">
 
-<title>Line number on code blocks with Rmarkdown</title>
+<title>html-paged.utf8.md</title>
 
 
 <style type="text/css">@font-face {
@@ -28235,229 +28234,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <div class="front-page">
-<div id="header" class="title-page">
-<h1 class="title">Line number on code blocks with Rmarkdown</h1>
-<h2 class="author">Atusy</h2>
-</div>
 </div>
 
 <div class="front-matter-container">
 </div>
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode css"><code class="sourceCode css"><a class="sourceLine" id="cb1-1" title="1">pre<span class="fu">.numberSource</span> a<span class="fu">.sourceLine</span> {</a>
-<a class="sourceLine" id="cb1-2" title="2">  <span class="kw">left</span>: <span class="dv">0</span><span class="dt">em</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb1-3" title="3">  <span class="kw">text-indent</span>: <span class="dv">-5</span><span class="dt">em</span></a>
-<a class="sourceLine" id="cb1-4" title="4">}</a></code></pre></div>
-<style type="text/css">
-pre.numberSource a.sourceLine {
-  left: 0em;
-  text-indent: -5em
-}
-</style>
-<p><strong>Before reading:</strong></p>
-<ul>
-<li>This document introduces how to add line numbers on code blocks
-when knitting HTML and PDF.</li>
-<li>For quick start, go “<a href="#autonumbering">Autonumbering</a>”.</li>
-<li>A source and output examples in variety of formats are available
-on GitHub <a href="https://github.com/atusy/rmd-line-num"><code>atusy/rmd-line-num</code></a>.</li>
-<li>Questions and comments are welcome
-on <a href="https://github.com/atusy/rmd-line-num/issues">GitHub Issues</a> or
-on Twitter (<a href="https://twitter.com/Atsushi776">@Atsushi776</a>)</li>
-</ul>
-<div id="number-pandocs-fenced-code" class="section level1">
-<h1><span class="header-section-number">1</span> Number Pandoc’s fenced code</h1>
-<p>Pandoc supports line numbers on fenced codes
-by giving a class attribute <code>numberLines</code> <a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>.
-For example,</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb2-1" title="1">```{.r .numberLines}</a>
-<a class="sourceLine" id="cb2-2" title="2">x &lt;- rnorm(10)</a>
-<a class="sourceLine" id="cb2-3" title="3">mean(x)</a>
-<a class="sourceLine" id="cb2-4" title="4">```</a></code></pre></div>
-<p>becomes</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1">x &lt;-<span class="st"> </span><span class="kw">rnorm</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<p><code>pdf_document</code> requires nothing more.
-On the other hand, <code>html_document</code> also requires a YAML front matter
-with a <code>highlight</code> argument being specified<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a><sup>,</sup> <a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb4-1" title="1"><span class="ot">---</span></a>
-<a class="sourceLine" id="cb4-2" title="2"><span class="fu">title:</span><span class="at"> Line numbers with Rmarkdown documents</span></a>
-<a class="sourceLine" id="cb4-3" title="3"><span class="fu">output:</span><span class="at"> </span></a>
-<a class="sourceLine" id="cb4-4" title="4">  <span class="fu">pdf_document:</span><span class="at"> default</span></a>
-<a class="sourceLine" id="cb4-5" title="5">  <span class="fu">html_document:</span></a>
-<a class="sourceLine" id="cb4-6" title="6">    <span class="fu">highlight:</span><span class="at"> pygments</span></a>
-<a class="sourceLine" id="cb4-7" title="7"><span class="ot">---</span></a></code></pre></div>
-<p><code>bookdown::html_document2</code> and <code>pagedown::html_paged</code>
-further require <code>clean_highlight_tags: false</code> in YAML front matter.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb5-1" title="1"><span class="ot">---</span></a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="fu">title:</span><span class="at"> Line numbers with Rmarkdown documents</span></a>
-<a class="sourceLine" id="cb5-3" title="3"><span class="fu">output:</span><span class="at"> </span></a>
-<a class="sourceLine" id="cb5-4" title="4">  bookdown:<span class="fu">:html_document2:</span></a>
-<a class="sourceLine" id="cb5-5" title="5">    <span class="fu">highlight:</span><span class="at"> pygments</span></a>
-<a class="sourceLine" id="cb5-6" title="6">    <span class="fu">clean_highlight_tags:</span><span class="at"> </span><span class="ch">false</span></a>
-<a class="sourceLine" id="cb5-7" title="7">  pagedown:<span class="fu">:html_paged:</span></a>
-<a class="sourceLine" id="cb5-8" title="8">    <span class="fu">highlight:</span><span class="at"> pygments</span></a>
-<a class="sourceLine" id="cb5-9" title="9">    <span class="fu">clean_highlight_tags:</span><span class="at"> </span><span class="ch">false</span></a>
-<a class="sourceLine" id="cb5-10" title="10"><span class="ot">---</span></a></code></pre></div>
-<div id="html_notebook-requires-modified-css" class="section level2">
-<h2><span class="header-section-number">1.1</span> <code>html_notebook</code> requires modified CSS</h2>
-<p><a href="https://github.com/atusy/rmd-line-num/issues/1" class="uri">https://github.com/atusy/rmd-line-num/issues/1</a></p>
-</div>
-<div id="blogdownhtml_page-requires-highlight.js" class="section level2">
-<h2><span class="header-section-number">1.2</span> <code>blogdown::html_page</code> requires <code>highlight.js</code></h2>
-<p>Although Hugo natively supports line numbers on code blocks,
-this requires complex tricks for Rmarkdown users.
-Thus, I recommend <code>highlight.js</code></p>
-</div>
-</div>
-<div id="number-rmarkdowns-chunks-and-outputs" class="section level1">
-<h1><span class="header-section-number">2</span> Number Rmarkdown’s chunks and outputs</h1>
-<p>The above success infers a success in chunks of Rmarkdown.</p>
-<div id="numbering-chunks" class="section level2">
-<h2><span class="header-section-number">2.1</span> Numbering chunks</h2>
-<p>For code chunks in Rmarkdown documents,
-specify <code>class.source = &quot;numberLines&quot;</code> as a chunk option to
-assign the <code>numberLines</code> class<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
-<p>Again, you need <code>highlight: pygments</code> for <code>html_document</code>.</p>
-<p>Thus,</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb6-1" title="1">---</a>
-<a class="sourceLine" id="cb6-2" title="2">title: Line numbers with Rmarkdown documents</a>
-<a class="sourceLine" id="cb6-3" title="3">output: </a>
-<a class="sourceLine" id="cb6-4" title="4">  html_document:</a>
-<a class="sourceLine" id="cb6-5" title="5">    highlight: pygments</a>
-<a class="sourceLine" id="cb6-6" title="6">---</a>
-<a class="sourceLine" id="cb6-7" title="7"></a>
-<a class="sourceLine" id="cb6-8" title="8">```{r, class.source = &quot;numberLines&quot;}</a>
-<a class="sourceLine" id="cb6-9" title="9">x &lt;- seq(10)</a>
-<a class="sourceLine" id="cb6-10" title="10">mean(x)</a>
-<a class="sourceLine" id="cb6-11" title="11">```</a></code></pre></div>
-<p>becomes</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb7-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<pre><code>## [1] 5.5</code></pre>
-<p>Great again!!</p>
-</div>
-<div id="numbering-outputs" class="section level2">
-<h2><span class="header-section-number">2.2</span> Numbering outputs</h2>
-<p>Add line numbers on outputs by specifying <code>class.output = &quot;numberLines&quot;</code> as a chunk option.
-Note that the result has gray background which is difficult to be distinguished from inputs.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb10-1" title="1">## [1] 5.5</a></code></pre></div>
-<p>If output format is HTML, use CSS.
-I do not support LaTeX which kills me.</p>
-<p>Let’s see how to style output on HTML and CSS.</p>
-<p>Before adding <code>class.output = &quot;numberLines&quot;</code>, an output in HTML is</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">&lt;pre&gt;&lt;code&gt;</span>## [1] 5.5<span class="kw">&lt;/code&gt;&lt;/pre&gt;</span></a></code></pre></div>
-<p>After adding the attribute, the output in becomes</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb12-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb7-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
-<p>When <code>chunkout</code> class is further added, the output in html becomes</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource html numberLines"><code class="sourceCode html"><a class="sourceLine" id="cb13-1" title="1"><span class="kw">&lt;div</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10&quot;</span><span class="kw">&gt;&lt;pre</span><span class="ot"> class=</span><span class="st">&quot;sourceCode numberSource numberLines chunkout&quot;</span><span class="kw">&gt;&lt;code</span><span class="ot"> class=</span><span class="st">&quot;sourceCode&quot;</span><span class="kw">&gt;&lt;a</span><span class="ot"> class=</span><span class="st">&quot;sourceLine&quot;</span><span class="ot"> id=</span><span class="st">&quot;cb10-1&quot;</span><span class="ot"> title=</span><span class="st">&quot;1&quot;</span><span class="kw">&gt;</span>## [1] 5.5<span class="kw">&lt;/a&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;</span></a></code></pre></div>
-<p>You can see <code>chunkout</code> class is added to <code>pre</code> tag.</p>
-<p>So, add a following CSS code:</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource css numberLines"><code class="sourceCode css"><a class="sourceLine" id="cb14-1" title="1">div<span class="fu">.sourceCode</span> pre<span class="fu">.chunkout</span> {</a>
-<a class="sourceLine" id="cb14-2" title="2">  <span class="kw">background</span>: <span class="cn">white</span><span class="op">;</span></a>
-<a class="sourceLine" id="cb14-3" title="3">}</a></code></pre></div>
-<style type="text/css">
-div.sourceCode pre.chunkout {
-  background: white;
-}
-</style>
-<p>and you’ll be happy, right?</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource numberLines chunkout"><code class="sourceCode"><a class="sourceLine" id="cb16-1" title="1">## [1] 5.5</a></code></pre></div>
-</div>
-</div>
-<div id="autonumbering" class="section level1">
-<h1><span class="header-section-number">3</span> Autonumbering</h1>
-<ul>
-<li>Edit after <code>&lt;!-- Start your body --&gt;</code> of the following template.</li>
-<li>Disable line numbers temporarily by specifying
-<code>class.source = NULL</code> and <code>class.output = NULL</code> for chunk options.</li>
-</ul>
-<div id="a-template" class="section level2">
-<h2><span class="header-section-number">3.1</span> A template</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb17-1" title="1">---</a>
-<a class="sourceLine" id="cb17-2" title="2">output:</a>
-<a class="sourceLine" id="cb17-3" title="3">  html_document:</a>
-<a class="sourceLine" id="cb17-4" title="4">    highlight: pygments</a>
-<a class="sourceLine" id="cb17-5" title="5">  pdf_document: default</a>
-<a class="sourceLine" id="cb17-6" title="6">---</a>
-<a class="sourceLine" id="cb17-7" title="7"></a>
-<a class="sourceLine" id="cb17-8" title="8">```{r setup, include = FALSE}</a>
-<a class="sourceLine" id="cb17-9" title="9">knitr::opts_chunk$set(</a>
-<a class="sourceLine" id="cb17-10" title="10">  class.source = &quot;numberLines&quot;, </a>
-<a class="sourceLine" id="cb17-11" title="11">  class.output = c(&quot;numberLines&quot;, &quot;chunkout&quot;) </a>
-<a class="sourceLine" id="cb17-12" title="12">)</a>
-<a class="sourceLine" id="cb17-13" title="13"></a>
-<a class="sourceLine" id="cb17-14" title="14"># Add some arbitrary setup codes</a>
-<a class="sourceLine" id="cb17-15" title="15">```</a>
-<a class="sourceLine" id="cb17-16" title="16"></a>
-<a class="sourceLine" id="cb17-17" title="17"></a>
-<a class="sourceLine" id="cb17-18" title="18">```{css, echo = FALSE}</a>
-<a class="sourceLine" id="cb17-19" title="19">div.sourceCode pre.chunkout {</a>
-<a class="sourceLine" id="cb17-20" title="20">  background: white;</a>
-<a class="sourceLine" id="cb17-21" title="21">}</a>
-<a class="sourceLine" id="cb17-22" title="22">```</a>
-<a class="sourceLine" id="cb17-23" title="23"></a>
-<a class="sourceLine" id="cb17-24" title="24">&lt;!-- Start your body --&gt;</a>
-<a class="sourceLine" id="cb17-25" title="25"></a>
-<a class="sourceLine" id="cb17-26" title="26">**Numbered**</a>
-<a class="sourceLine" id="cb17-27" title="27"></a>
-<a class="sourceLine" id="cb17-28" title="28">```{r}</a>
-<a class="sourceLine" id="cb17-29" title="29">x &lt;- seq(10)</a>
-<a class="sourceLine" id="cb17-30" title="30">mean(x)</a>
-<a class="sourceLine" id="cb17-31" title="31">```</a>
-<a class="sourceLine" id="cb17-32" title="32"></a>
-<a class="sourceLine" id="cb17-33" title="33">**Unnumbered**</a>
-<a class="sourceLine" id="cb17-34" title="34"></a>
-<a class="sourceLine" id="cb17-35" title="35">```{r, class.source = NULL, class.output = NULL}</a>
-<a class="sourceLine" id="cb17-36" title="36">x &lt;- seq(10)</a>
-<a class="sourceLine" id="cb17-37" title="37">mean(x)</a>
-<a class="sourceLine" id="cb17-38" title="38">```</a></code></pre></div>
-<p>Pandoc also supports autonumbering for <code>indended code</code> [^indended-code].
-However, I do not recommend this because of poorly supported attributes.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource yaml numberLines"><code class="sourceCode yaml"><a class="sourceLine" id="cb18-1" title="1"><span class="ot">---</span></a>
-<a class="sourceLine" id="cb18-2" title="2"><span class="fu">output:</span></a>
-<a class="sourceLine" id="cb18-3" title="3">  <span class="fu">html_document:</span></a>
-<a class="sourceLine" id="cb18-4" title="4">    <span class="fu">highlight:</span><span class="at"> pygments</span></a>
-<a class="sourceLine" id="cb18-5" title="5">    <span class="fu">pandoc_args:</span></a>
-<a class="sourceLine" id="cb18-6" title="6">      <span class="kw">-</span> --indented-code-classes</a>
-<a class="sourceLine" id="cb18-7" title="7">      <span class="kw">-</span> lineNumbers</a>
-<a class="sourceLine" id="cb18-8" title="8"><span class="ot">---</span></a>
-<a class="sourceLine" id="cb18-9" title="9"></a>
-<a class="sourceLine" id="cb18-10" title="10">    x &lt;- seq(10)</a>
-<a class="sourceLine" id="cb18-11" title="11">    mean(x)</a></code></pre></div>
-</div>
-<div id="output-from-the-template" class="section level2">
-<h2><span class="header-section-number">3.2</span> Output from the template</h2>
-<p><strong>Numbered</strong></p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource r numberLines"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb19-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource numberLines chunkout"><code class="sourceCode"><a class="sourceLine" id="cb20-1" title="1">## [1] 5.5</a></code></pre></div>
-<p><strong>Unnumbered</strong></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" title="1">x &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb21-2" title="2"><span class="kw">mean</span>(x)</a></code></pre></div>
-<pre><code>## [1] 5.5</code></pre>
-</div>
-</div>
-<div id="enjoy" class="section level1">
-<h1><span class="header-section-number">4</span> Enjoy !</h1>
-</div>
-<div class="footnotes">
-<hr />
-<ol>
-<li id="fn1"><p>Class attributes require leading <code>.</code> for values (e.g., <code>.numberLines</code>).
-See Pandoc’s manual for detail
-(<a href="https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes" class="uri">https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes</a>).<a href="#fnref1" class="footnote-back">↩</a></p></li>
-<li id="fn2"><p>“Chunk numberLines hook” on Rpubs figured out requirement of <code>pygment</code>
-(<a href="https://rpubs.com/Thell/numberLines" class="uri">https://rpubs.com/Thell/numberLines</a>).<a href="#fnref2" class="footnote-back">↩</a></p></li>
-<li id="fn3"><p>See <code>help(rmarkdown::html_document)</code> for available highlighting styles.<a href="#fnref3" class="footnote-back">↩</a></p></li>
-<li id="fn4"><p>See “Tex Results” section of “Chunk options and package options” by Yi Hui
-(<a href="https://yihui.name/knitr/options/#text-results" class="uri">https://yihui.name/knitr/options/#text-results</a>)<a href="#fnref4" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb1-1" title="1">Very very looooooooooooooooooooooooooong code.</a></code></pre></div>
 
 
 

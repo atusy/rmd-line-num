@@ -1,0 +1,17 @@
+.sourceCode {
+  overflow-x: auto;
+}
+
+pre.numberSource {
+  margin-left: 0em;
+}
+
+pre.numberSource a.sourceLine::before {
+  width: 3em;
+  border-right: thin solid gray;
+  line-height: 1.5em;
+}
+
+pre.numberSource a.sourceLine {
+  left: 0em;
+}

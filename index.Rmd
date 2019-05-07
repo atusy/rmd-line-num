@@ -1,32 +1,49 @@
 ---
-title: Number lines in code blocks with Rmarkdown
+title: Line number on code blocks with Rmarkdown
 author: Atusy
 output: 
   # works
+  # not works
+  html_notebook: 
+    highlight: pygments
+    css: html-notebook.css
   html_document: 
-    highlight: pygment
+    highlight: pygments
     toc: true
     toc_float: true
     number_sections: true
+    self_contained: false
+  pagedown::html_paged: 
+    highlight: pygments
+    clean_highlight_tags: false
   pdf_document: default
-  # not works
-  html_notebook: 
-    highlight: pygment
+  bookdown::html_document2:
+    highlight: tango
+    clean_highlight_tags: false
   word_document: default
 ---
 
-**Before reading**
+**Before reading:**
 
+- This document introduces how to add line numbers on code blocks 
+  when knitting HTML and PDF.
 - For quick start, go "[Autonumbering]".
-- A source and output examples in variety of formats are on GitHub [`atusy/rmd-line-num`](https://github.com/atusy/rmd-line-num).
-- Ask me questions on [GitHub Issues](https://github.com/atusy/rmd-line-num/issues) or on Twitter ([\@Atsushi776](https://twitter.com/Atsushi776))
+- A source and output examples in variety of formats are available
+  on GitHub [`atusy/rmd-line-num`](https://github.com/atusy/rmd-line-num).
+- Questions and comments are welcome
+  on [GitHub Issues](https://github.com/atusy/rmd-line-num/issues) or 
+  on Twitter ([\@Atsushi776](https://twitter.com/Atsushi776))
 
 # Number Pandoc's fenced code
 
-Pandoc has an official support to number lines on fenced code by giving a class attribute `numberLines` 
-(<https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes>).
+Pandoc supports line numbers on fenced codes 
+  by giving a class attribute `numberLines` [^numberLines].
+For example,
 
-Note that class attributes require `.` before the class name.
+[^numberLines]: 
+  Class attributes require leading `.` for values (e.g., `.numberLines`).
+  See Pandoc's manual for detail
+  (<https://www.pandoc.org/MANUAL.html#extension-fenced_code_attributes>).
 
 ````{.numberLines}
 ```{.r .numberLines}
@@ -35,30 +52,60 @@ mean(x)
 ```
 ````
 
-Should become
+becomes
 
 ```{.r .numberLines}
 x <- rnorm(10)
 mean(x)
 ```
 
-This is enough for `rmarkdown::pdf_document`.
+`pdf_document` requires nothing more.
+On the other hand, `html_document` also requires a YAML front matter 
+  with a `highlight` argument being specified[^pygments]^,^ [^highlight-styles].
 
-For `html_document`, we also need `highlight:pygment` in YAML front matter[^pygment].
+[^pygments]: 
+  "Chunk numberLines hook" on Rpubs figured out requirement of `pygment`
+  (<https://rpubs.com/Thell/numberLines>).
 
-[^pygment]: "Chunk numberLines hook]" on Rpubs figured out requirement of `pygment` (<https://rpubs.com/Thell/numberLines>).
+[^highlight-styles]: 
+  See `help(rmarkdown::html_document)` for available highlighting styles.
 
 ```{.yaml .numberLines}
 ---
 title: Line numbers with Rmarkdown documents
 output: 
-  html_document:
-    highlight: pygment
   pdf_document: default
+  html_document:
+    highlight: pygments
 ---
 ```
 
+`bookdown::html_document2` and `pagedown::html_paged` 
+  further require `clean_highlight_tags: false` in YAML front matter.
 
+
+```{.yaml .numberLines}
+---
+title: Line numbers with Rmarkdown documents
+output: 
+  bookdown::html_document2:
+    highlight: pygments
+    clean_highlight_tags: false
+  pagedown::html_paged:
+    highlight: pygments
+    clean_highlight_tags: false
+---
+```
+
+## `html_notebook` requires modified CSS
+
+<https://github.com/atusy/rmd-line-num/issues/1>
+
+## `blogdown::html_page` requires `highlight.js`
+
+Although Hugo natively supports line numbers on code blocks,
+this requires complex tricks for Rmarkdown users.
+Thus, I recommend `highlight.js`
 
 # Number Rmarkdown's chunks and outputs
 
@@ -66,12 +113,15 @@ The above success infers a success in chunks of Rmarkdown.
 
 ## Numbering chunks
 
-For code chunks of Rmarkdown documents,
-`numberLines` class can be given by assigning `class.source = "numberLines"` as a chunk option[^yihui]. 
+For code chunks in Rmarkdown documents,
+  specify `class.source = "numberLines"` as a chunk option to
+  assign the `numberLines` class[^yihui]. 
 
-[^yihui]: See "Tex Results" section of "Chunk options and package options" by Yi Hui (<https://yihui.name/knitr/options/#text-results>)
+[^yihui]: 
+  See "Tex Results" section of "Chunk options and package options" by Yi Hui 
+  (<https://yihui.name/knitr/options/#text-results>)
 
-Again, you need `highlight: pygment` for `html_document`.
+Again, you need `highlight: pygments` for `html_document`.
 
 Thus,
 
@@ -80,7 +130,7 @@ Thus,
 title: Line numbers with Rmarkdown documents
 output: 
   html_document:
-    highlight: pygment
+    highlight: pygments
 ---
 
 ```{`r "r"`, class.source = "numberLines"}
@@ -98,31 +148,28 @@ mean(x)
 
 Great again!!
 
-
-Unfortunately, line numbering does not work on `rmarkdown::word_document`.
-
-It does not work properly on `rmarkdown::html_notebook` and `blogdown::html_page` as well.
-I guess some tricks required in CSS or JS.
-
 ## Numbering outputs
 
-You may also want to number lines on outputs by `class.output = "numberLines"`.
-However, this changes background colors to gray.
+Add line numbers on outputs by specifying `class.output = "numberLines"` as a chunk option.
+Note that the result has gray background which is difficult to be distinguished from inputs.
 
-```{r, class.source = "numberLines", class.output = "numberLines", echo = FALSE}
+```{r, class.source = "numberLines", class.output = "numberLines"}
 x <- seq(10)
 mean(x)
 ```
 
-If output format is html, css will help.
+If output format is HTML, use CSS.
+I do not support LaTeX which kills me.
 
-Before adding `class.output = "numberLines"`, an output in html is
+Let's see how to style output on HTML and CSS.
+
+Before adding `class.output = "numberLines"`, an output in HTML is
 
 ```{.html .numberLines}
 <pre><code>## [1] 5.5</code></pre>
 ```
 
-After adding it, the output in html becomes
+After adding the attribute, the output in becomes
 
 ```{.html .numberLines}
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource numberLines"><code class="sourceCode"><a class="sourceLine" id="cb7-1" title="1">## [1] 5.5</a></code></pre></div>
@@ -136,7 +183,7 @@ When `chunkout` class is further added, the output in html becomes
 
 You can see `chunkout` class is added to `pre` tag.
 
-So, lets modify css with
+So, add a following CSS code:
 
 ```{css, class.source = "numberLines"}
 div.sourceCode pre.chunkout {
@@ -146,39 +193,24 @@ div.sourceCode pre.chunkout {
 
 and you'll be happy, right?
 
-```{r, class.source = "numberLines", class.output = c("numberLines", "chunkout"), echo = FALSE}
+```{r, class.source = "numberLines", class.output = c("numberLines", "chunkout")}
 x <- seq(10)
 mean(x)
 ```
 
-Sorry I do not support pdf because $LaTeX$ kills me.
-
 # Autonumbering
 
-- Super easy by a following template and edit after `<!-- Start your body -->`.
-- Disable numbering by `class.source = NULL, class.output = NULL`.
-- Note autonumbering does not work on Pandoc's fenced code [^pandoc].
-  
-  [^pandoc]: The document indicates a following YAML front matter should work, but doesn't (<https://www.pandoc.org/MANUAL.html#reader-options>).
+- Edit after `<!-- Start your body -->` of the following template.
+- Disable line numbers temporarily by specifying
+  `class.source = NULL` and `class.output = NULL` for chunk options.
 
-  ```{.yaml .numberLines}
-  ---
-  output:
-    html_document:
-      highlight: pygment
-      pandoc_args:
-        - --indented-code-classes
-        - lineNumbers
-  ---
-  ```
-
-## Input with a template
+## A template
 
 ````{.numberLines}
 ---
 output:
   html_document:
-    highlight: pygment
+    highlight: pygments
   pdf_document: default
 ---
 
@@ -215,6 +247,24 @@ mean(x)
 ```
 
 ````
+
+Pandoc also supports autonumbering for `indended code` [^indended-code].
+However, I do not recommend this because of poorly supported attributes.
+
+```{.yaml .numberLines}
+---
+output:
+  html_document:
+    highlight: pygments
+    pandoc_args:
+      - --indented-code-classes
+      - lineNumbers
+---
+
+    x <- seq(10)
+    mean(x)
+
+```
 
 ## Output from the template
 
